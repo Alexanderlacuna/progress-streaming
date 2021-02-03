@@ -2,10 +2,10 @@
 import time
 from flask import Flask, render_template
 import subprocess
-import gevent
+# import gevent
 
 from flask import Flask
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO,emit
 from flask import render_template
 
 __author__ = 'BonfaceKilz'
@@ -61,6 +61,7 @@ def mapping_c(param):
 
 
 def call_emitter_function():
+    pass
 
 
 @socketio.on("mapping")
@@ -68,21 +69,26 @@ def func_that_does_mapping():
 
     # stage 1
 
-    results_a = mapping_a()
-
-    emit("message", {"stage_name": "stage_1", "data": "random data"})
-
+    emit("running",{"stage_name":"stage_1"})
     time.sleep(3)
+
+    mapping_a()
+
+    
 
     # stage 2
 
-    emit("message", {"stage_name": "stage_2", "data": "random data"})
+    emit("running",{"stage_name":"stage_2"})
+
+    mapping_b("data")
 
     time.sleep(2)
 
     # stage 3
 
-    emit("message", {"stage_name": 'stage_3', "data": 'random staff'})
+    emit("running",{"stage_name":"stage_3"})
+
+    mapping_c("Data")
 
     time.sleep(3)
 
